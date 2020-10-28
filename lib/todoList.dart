@@ -9,7 +9,8 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TodoListModel todos = Provider.of<TodoListModel>(context);
-
+    List<Task> tasks = todos.allTasks;
+    print(tasks.length);
     return Stack(
       children: [
         Container(
@@ -31,21 +32,25 @@ class TodoList extends StatelessWidget {
           child: ListView.builder(
             itemCount: todos.allTasks.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                tileColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        style: BorderStyle.solid,
-                        width: 10,
-                        color: Colors.grey)),
-                leading: IconButton(
-                    icon: todos.allTasks[index].isCompleted
-                        ? Icon(Icons.radio_button_checked)
-                        : Icon(Icons.radio_button_unchecked),
-                    onPressed: () {
-                      todos.deleteTasks(todos.allTasks[index]);
-                    }),
-                title: Text(todos.allTasks[index].taskTitle),
+              return Container(
+                margin: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                child: ListTile(
+                  tileColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                          style: BorderStyle.solid,
+                          width: 10,
+                          color: Colors.grey)),
+                  leading: IconButton(
+                      icon: todos.allTasks[index].isCompleted
+                          ? Icon(Icons.radio_button_checked)
+                          : Icon(Icons.radio_button_unchecked),
+                      onPressed: () {
+                        todos.deleteTasks(todos.allTasks[index]);
+                      }),
+                  title: Text(todos.allTasks[index].taskTitle),
+                ),
               );
             },
           ),
