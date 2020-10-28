@@ -12,11 +12,14 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TodoListModel(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: TodoList(),
+        home: Scaffold(
+          body: TodoList(),
+        ),
       ),
     );
   }
