@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 class TodoList extends StatelessWidget {
   TextEditingController taskFieldController = TextEditingController();
+  final scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,58 +17,58 @@ class TodoList extends StatelessWidget {
     print("printing ffssfs");
     print(tasks.length);
 
-    return Stack(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/bg-1.jpg"), fit: BoxFit.cover)),
-        ),
-        Positioned(
-          top: 50,
-          left: 25,
-          child: Text(
-            "My Tasks",
-            style: TextStyle(color: Colors.white, fontSize: 40),
+    return Scaffold(
+      key: scaffoldState,
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/bg-1.jpg"), fit: BoxFit.cover)),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 100),
-          child: ListView.builder(
-            itemCount: todos.allTasks.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 5, left: 5, right: 5),
-                child: ListTile(
-                  tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(style: BorderStyle.none)),
-                  leading: IconButton(
-                      icon: todos.allTasks[index].isCompleted
-                          ? Icon(Icons.radio_button_checked)
-                          : Icon(Icons.radio_button_unchecked),
-                      onPressed: () {
-                        todos.deleteTasks(todos.allTasks[index]);
-                      }),
-                  title: Text(todos.allTasks[index].taskTitle),
-                ),
-              );
-            },
+          Positioned(
+            top: 50,
+            left: 25,
+            child: Text(
+              "My Tasks",
+              style: TextStyle(color: Colors.white, fontSize: 40),
+            ),
           ),
-        ),
-        Positioned(
-          bottom: 30,
-          right: 10,
-          child: FloatingActionButton(
-              child: Icon(Icons.add),
-              backgroundColor: Colors.grey,
-              onPressed: () {
-                showBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (context) {
+          Container(
+            margin: EdgeInsets.only(top: 100),
+            child: ListView.builder(
+              itemCount: todos.allTasks.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: ListTile(
+                      tileColor: Colors.white,
+                      leading: IconButton(
+                          icon: todos.allTasks[index].isCompleted
+                              ? Icon(Icons.radio_button_checked)
+                              : Icon(Icons.radio_button_unchecked),
+                          onPressed: () {
+                            todos.deleteTasks(todos.allTasks[index]);
+                          }),
+                      title: Text(todos.allTasks[index].taskTitle),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+            bottom: 30,
+            right: 10,
+            child: FloatingActionButton(
+                child: Icon(Icons.add),
+                backgroundColor: Colors.grey,
+                onPressed: () {
+                  scaffoldState.currentState.showBottomSheet(
+                    (context) {
                       return ClipRRect(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
@@ -123,10 +124,13 @@ class TodoList extends StatelessWidget {
                           ),
                         ),
                       );
-                    });
-              }),
-        ),
-      ],
+                    },
+                    backgroundColor: Colors.transparent,
+                  );
+                }),
+          ),
+        ],
+      ),
     );
   }
 }
