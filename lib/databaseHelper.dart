@@ -30,6 +30,7 @@ class DatabaseHelper {
 
   // SQL code to create the database table
   Future _onCreate(Database db, int version) async {
+    print("creating db");
     await db.execute('''
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,10 +46,18 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
+  Future<List<Task>> queryAllRows() async {
+    List<Task> tasks = [];
     Database db = await instance.database;
     var res = await db.query(table, orderBy: "$columnId DESC");
-    return res;
+    print(res);
+    print(res.length);
+    res.forEach((element) {
+      tasks.insert(0, Task(taskTitle: element["title"]));
+    });
+    // print("printing tasks");
+    // print(tasks);
+    return tasks;
   }
 
   Future<int> delete(int id) async {

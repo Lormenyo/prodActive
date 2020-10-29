@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prodactive/databaseHelper.dart';
 import 'package:prodactive/todoListModel.dart';
 import 'package:provider/provider.dart';
 
@@ -8,9 +9,13 @@ class TodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TodoListModel todos = Provider.of<TodoListModel>(context);
+    // TodoListModel todos = Provider.of<TodoListModel>(context);
+    // DatabaseHelper.instance.clearTable();
+    var todos = context.watch<TodoListModel>();
     List<Task> tasks = todos.allTasks;
+    print("printing ffssfs");
     print(tasks.length);
+
     return Stack(
       children: [
         Container(
