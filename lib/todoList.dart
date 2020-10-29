@@ -9,9 +9,9 @@ class TodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TodoListModel todos = Provider.of<TodoListModel>(context);
+    TodoListModel todos = Provider.of<TodoListModel>(context);
     // DatabaseHelper.instance.clearTable();
-    var todos = context.watch<TodoListModel>();
+    // var todos = context.watch<TodoListModel>();
     List<Task> tasks = todos.allTasks;
     print("printing ffssfs");
     print(tasks.length);
@@ -43,10 +43,7 @@ class TodoList extends StatelessWidget {
                   tileColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(
-                          style: BorderStyle.solid,
-                          width: 10,
-                          color: Colors.grey)),
+                      side: BorderSide(style: BorderStyle.none)),
                   leading: IconButton(
                       icon: todos.allTasks[index].isCompleted
                           ? Icon(Icons.radio_button_checked)
@@ -68,54 +65,61 @@ class TodoList extends StatelessWidget {
               backgroundColor: Colors.grey,
               onPressed: () {
                 showBottomSheet(
+                    backgroundColor: Colors.transparent,
                     context: context,
                     builder: (context) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.only(
-                          //     topLeft: Radius.circular(20),
-                          //     topRight: Radius.circular(20)),
-                          color: Colors.white,
-                        ),
-                        height: 200,
+                      return ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
                         child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 350,
-                                child: TextFormField(
-                                  controller: taskFieldController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: "Do Something...",
-                                    border: new OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                      const Radius.circular(10.0),
-                                    )),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey)),
-                                  ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          ),
+                          height: 200,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 350,
+                                  child: TextFormField(
+                                      controller: taskFieldController,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        hintText: "Do Something...",
+                                        border: new OutlineInputBorder(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                          const Radius.circular(10.0),
+                                        )),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.grey)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.black)),
+                                      )),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              RaisedButton(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Text("Add new task"),
-                                  onPressed: () {
-                                    todos.addTask(Task(
-                                        taskTitle: taskFieldController.text));
-                                    taskFieldController.clear();
-                                  })
-                            ],
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                RaisedButton(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: BorderSide(color: Colors.black)),
+                                    child: Text("Add new task"),
+                                    onPressed: () {
+                                      todos.addTask(Task(
+                                          taskTitle: taskFieldController.text));
+                                      taskFieldController.clear();
+                                    })
+                              ],
+                            ),
                           ),
                         ),
                       );

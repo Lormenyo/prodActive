@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'databaseHelper.dart';
 
 List<Task> getTasks() {
-  List<Task> tasks = [];
+  List<Task> tasks = List();
   DatabaseHelper.instance.queryAllRows().then((value) {
     value.forEach((task) {
       tasks.insert(0, task);
     });
   });
-  // print(tasks);
+  print(tasks);
   return tasks;
 }
 

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       create: (context) => TodoListModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'ProdActive',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

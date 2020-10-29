@@ -50,13 +50,13 @@ class DatabaseHelper {
     List<Task> tasks = [];
     Database db = await instance.database;
     var res = await db.query(table, orderBy: "$columnId DESC");
-    print(res);
-    print(res.length);
+    // print(res);
+    // print(res.length);
     res.forEach((element) {
       tasks.insert(0, Task(taskTitle: element["title"]));
     });
     // print("printing tasks");
-    // print(tasks);
+    print(tasks);
     return tasks;
   }
 
