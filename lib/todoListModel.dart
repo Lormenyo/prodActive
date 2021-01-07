@@ -2,21 +2,24 @@ import 'package:flutter/cupertino.dart';
 
 import 'databaseHelper.dart';
 
-List<Task> getTasks() {
-  List<Task> tasks = List();
-  DatabaseHelper.instance.queryAllRows().then((value) {
-    value.forEach((task) {
-      tasks.insert(0, task);
-    });
-  });
-  print(tasks);
-  return tasks;
-}
-
 class TodoListModel extends ChangeNotifier {
-  static List<Task> _tasks = getTasks();
+  List<Task> _tasks = [];
 
   List<Task> get allTasks => _tasks;
+
+  setTasks(List<Task> tasks) {
+    _tasks = tasks;
+    notifyListeners();
+  }
+
+  void getTasks() async{
+    await DatabaseHelper.instance.queryAllRows().then((List<Task> value) {
+      // value.forEach((task) {
+      //   tasks.insert(0, task);
+      // });
+      setTasks(value);
+    });
+  }
 
   void addTask(Task task) async {
     var id = await DatabaseHelper.instance.insert(task);

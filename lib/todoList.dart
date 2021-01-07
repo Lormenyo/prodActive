@@ -1,22 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prodactive/databaseHelper.dart';
 import 'package:prodactive/todoListModel.dart';
 import 'package:provider/provider.dart';
 
 class TodoList extends StatelessWidget {
-  TextEditingController taskFieldController = TextEditingController();
+  final TextEditingController taskFieldController = TextEditingController();
   final scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    TodoListModel todos = Provider.of<TodoListModel>(context);
+    final TodoListModel todos = Provider.of<TodoListModel>(context);
     // DatabaseHelper.instance.clearTable();
     // var todos = context.watch<TodoListModel>();
-    List<Task> tasks = todos.allTasks;
+    // List<Task> tasks = todos.allTasks;
     print("printing ffssfs");
-    print(tasks.length);
-
+    // print(tasks.length);
+    todos.getTasks();
     return Scaffold(
       key: scaffoldState,
       body: Stack(
@@ -47,13 +46,20 @@ class TodoList extends StatelessWidget {
                     child: ListTile(
                       tileColor: Colors.white,
                       leading: IconButton(
-                          icon: todos.allTasks[index].isCompleted
+                          icon: context
+                                  .read<TodoListModel>()
+                                  .allTasks[index]
+                                  .isCompleted
                               ? Icon(Icons.radio_button_checked)
                               : Icon(Icons.radio_button_unchecked),
                           onPressed: () {
-                            todos.deleteTasks(todos.allTasks[index]);
+                            todos.deleteTasks(
+                                context.read<TodoListModel>().allTasks[index]);
                           }),
-                      title: Text(todos.allTasks[index].taskTitle),
+                      title: Text(context
+                          .read<TodoListModel>()
+                          .allTasks[index]
+                          .taskTitle),
                     ),
                   ),
                 );
