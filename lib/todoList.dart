@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:prodactive/todoListModel.dart';
 import 'package:provider/provider.dart';
 
+import 'databaseHelper.dart';
+
 class TodoList extends StatelessWidget {
   final TextEditingController taskFieldController = TextEditingController();
   final scaffoldState = GlobalKey<ScaffoldState>();
@@ -13,7 +15,7 @@ class TodoList extends StatelessWidget {
     // DatabaseHelper.instance.clearTable();
     // var todos = context.watch<TodoListModel>();
     // List<Task> tasks = todos.allTasks;
-    print("printing ffssfs");
+    // print("printing ffssfs");
     // print(tasks.length);
     todos.getTasks();
     return Scaffold(
@@ -46,20 +48,15 @@ class TodoList extends StatelessWidget {
                     child: ListTile(
                       tileColor: Colors.white,
                       leading: IconButton(
-                          icon: context
-                                  .read<TodoListModel>()
-                                  .allTasks[index]
-                                  .isCompleted
+                          icon: todos.allTasks[index].isCompleted
                               ? Icon(Icons.radio_button_checked)
                               : Icon(Icons.radio_button_unchecked),
                           onPressed: () {
-                            todos.deleteTasks(
-                                context.read<TodoListModel>().allTasks[index]);
+                            print("pressed!");
+                            todos.deleteTasks(todos.allTasks[index]);
+                            print(todos.allTasks);
                           }),
-                      title: Text(context
-                          .read<TodoListModel>()
-                          .allTasks[index]
-                          .taskTitle),
+                      title: Text(todos.allTasks[index].taskTitle),
                     ),
                   ),
                 );

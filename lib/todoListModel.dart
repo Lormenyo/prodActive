@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-
 import 'databaseHelper.dart';
+import 'package:provider/provider.dart';
 
 class TodoListModel extends ChangeNotifier {
   List<Task> _tasks = [];
@@ -12,11 +12,8 @@ class TodoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getTasks() async{
+  void getTasks() async {
     await DatabaseHelper.instance.queryAllRows().then((List<Task> value) {
-      // value.forEach((task) {
-      //   tasks.insert(0, task);
-      // });
       setTasks(value);
     });
   }
@@ -30,9 +27,16 @@ class TodoListModel extends ChangeNotifier {
     }
   }
 
-  void deleteTasks(Task task) {
-    _tasks.remove(task);
+  void deleteTasks(Task task) async {
+    task.isCompleted = true;
+    int id = await DatabaseHelper.instance.delete(task.id);
+    print(id);
+    // if ((_tasks.indexWhere((task) => task.id == id)) != -1) {
+    print("www");
+    _tasks.remove(Task(id: id, taskTitle: task.taskTitle));
+    setTasks(_tasks);
     notifyListeners();
+    // }
   }
 
   //   void _deleteTask(int id) async {

@@ -56,7 +56,7 @@ class DatabaseHelper {
       tasks.insert(0, Task(taskTitle: element["title"]));
     });
     // print("printing tasks");
-    print(tasks);
+    // print(tasks);
     return tasks;
   }
 
